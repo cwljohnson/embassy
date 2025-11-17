@@ -227,6 +227,10 @@ pub struct Config {
     /// Set the pull configuration for the RX pin.
     pub rx_pull: Pull,
 
+    /// Set this to true to enable sending LIN synchronous breaks
+    #[cfg(any(usart_v3, usart_v4))]
+    pub lin_enable: bool,
+
     /// Set the pull configuration for the CTS pin.
     pub cts_pull: Pull,
 
@@ -283,6 +287,8 @@ impl Default for Config {
             tx_config: OutputConfig::PushPull,
             rts_config: OutputConfig::PushPull,
             de_config: OutputConfig::PushPull,
+            #[cfg(any(usart_v3, usart_v4))]
+            lin_enable: false,
             duplex: Duplex::Full,
         }
     }
@@ -1713,6 +1719,7 @@ fn configure(
             w.set_txinv(config.invert_tx);
             w.set_rxinv(config.invert_rx);
             w.set_swap(config.swap_rx_tx);
+            w.set_linen(config.lin_enable);
         }
     });
 
