@@ -227,6 +227,18 @@ pub struct Config {
     /// Set the pull configuration for the RX pin.
     pub rx_pull: Pull,
 
+    /// Set the pull configuration for the CTS pin.
+    pub cts_pull: Pull,
+
+    /// Set the pin configuration for the TX pin.
+    pub tx_config: OutputConfig,
+
+    /// Set the pin configuration for the RTS pin.
+    pub rts_config: OutputConfig,
+
+    /// Set the pin configuration for the DE pin.
+    pub de_config: OutputConfig,
+
     /// Set this to true to enable sending LIN synchronous breaks
     #[cfg(any(usart_v3, usart_v4))]
     pub lin_enable: bool,
