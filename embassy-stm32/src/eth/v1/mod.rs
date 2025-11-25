@@ -309,9 +309,9 @@ impl<'d, T: Instance, P: PHY> Ethernet<'d, T, P> {
         while dma.dmabmr().read().sr() {}
 
         mac.maccr().modify(|w| {
-            // RM0410, p. 1882; notes 64 bit time for half duplex mode.
+            // RM0410, p. 1882; notes 64 bit time minimum for half duplex mode.
             // Unclear whether this is a minimum, or must be set to 64 bit times.
-            w.set_ifg(Ifg::IFG64); // inter frame gap 64 bit times
+            w.set_ifg(Ifg::IFG96); // inter frame gap 96 bit times
 
             w.set_apcs(Apcs::STRIP); // automatic padding and crc stripping
 
@@ -320,11 +320,11 @@ impl<'d, T: Instance, P: PHY> Ethernet<'d, T, P> {
 
             w.set_rod(Rod::DISABLED); // Disable receipt of TX'd frames in half-duplex
 
-            // // Enable transmission retries
-            // w.set_rd(stm32_metapac::eth::vals::Rd::ENABLED);
+            // Enable transmission retries
+            w.set_rd(stm32_metapac::eth::vals::Rd::ENABLED);
 
-            // // For retransmission n, wait up to 2^min(n, 1) time slots
-            // w.set_bl(stm32_metapac::eth::vals::Bl::BL1);
+            // For retransmission n, wait up to 2^min(n, 1) time slots
+            w.set_bl(stm32_metapac::eth::vals::Bl::BL1);
         });
 
         // Set the mac to pass all multicast packets
@@ -349,14 +349,11 @@ impl<'d, T: Instance, P: PHY> Ethernet<'d, T, P> {
         mac.macfcr().modify(|w| {
             w.set_pt(0x100);
 
-            // // Enable receive flow control
-            // w.set_rfce(true);
+            // Enable receive flow control
+            w.set_rfce(true);
 
             // Enable transmit flow control
             w.set_tfce(true);
-
-            // Enable back pressure for half duplex
-            w.set_fcb(stm32_metapac::eth::vals::Fcb::PAUSE_OR_BACK_PRESSURE);
         });
 
         // Transfer and Forward, Receive and Forward
