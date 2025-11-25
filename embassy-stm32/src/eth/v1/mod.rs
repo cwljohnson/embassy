@@ -349,8 +349,8 @@ impl<'d, T: Instance, P: PHY> Ethernet<'d, T, P> {
         mac.macfcr().modify(|w| {
             w.set_pt(0x100);
 
-            // Enable receive flow control
-            w.set_rfce(true);
+            // // Enable receive flow control
+            // w.set_rfce(true);
 
             // Enable transmit flow control
             w.set_tfce(true);
