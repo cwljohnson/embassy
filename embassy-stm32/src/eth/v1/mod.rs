@@ -320,11 +320,11 @@ impl<'d, T: Instance, P: PHY> Ethernet<'d, T, P> {
 
             w.set_rod(Rod::DISABLED); // Disable receipt of TX'd frames in half-duplex
 
-            // Enable transmission retries
-            w.set_rd(stm32_metapac::eth::vals::Rd::ENABLED);
+            // // Enable transmission retries
+            // w.set_rd(stm32_metapac::eth::vals::Rd::ENABLED);
 
-            // For retransmission n, wait up to 2^min(n, 1) time slots
-            w.set_bl(stm32_metapac::eth::vals::Bl::BL1);
+            // // For retransmission n, wait up to 2^min(n, 1) time slots
+            // w.set_bl(stm32_metapac::eth::vals::Bl::BL1);
         });
 
         // Set the mac to pass all multicast packets
